@@ -11,7 +11,6 @@ import getPaymentProvider
 import io.pleo.antaeus.core.factory.BillingContextFactory
 import io.pleo.antaeus.core.factory.BillingJobFactory
 import io.pleo.antaeus.core.factory.SchedulerFactory
-import io.pleo.antaeus.core.jobs.BillingContext
 import io.pleo.antaeus.core.services.*
 import io.pleo.antaeus.data.AntaeusDal
 import io.pleo.antaeus.data.CustomerTable
@@ -23,9 +22,7 @@ import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.quartz.JobBuilder
 import org.quartz.SimpleScheduleBuilder
-import org.quartz.TriggerBuilder
 import setupInitialData
 import java.io.File
 import java.sql.Connection

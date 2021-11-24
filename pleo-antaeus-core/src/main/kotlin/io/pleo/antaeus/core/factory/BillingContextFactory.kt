@@ -1,6 +1,6 @@
 package io.pleo.antaeus.core.factory
 
-import io.pleo.antaeus.core.jobs.BillingContext
+import io.pleo.antaeus.core.model.BillingContext
 import io.pleo.antaeus.core.jobs.BillingJob
 import org.quartz.*
 

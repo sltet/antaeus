@@ -1,4 +1,4 @@
-package io.pleo.antaeus.core.jobs
+package io.pleo.antaeus.core.model
 
 import org.quartz.JobDetail
 import org.quartz.Trigger
