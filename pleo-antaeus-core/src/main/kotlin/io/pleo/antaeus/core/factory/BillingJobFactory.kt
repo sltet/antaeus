@@ -11,8 +11,8 @@ import org.quartz.spi.TriggerFiredBundle
 class BillingJobFactory(private val billingService: BillingService,
                         private val invoiceService: InvoiceService
                          ) : SimpleJobFactory() {
-    override fun newJob(bundle: TriggerFiredBundle?, Scheduler: Scheduler?): Job {
-        val billingJob = super.newJob(bundle, Scheduler) as BillingJob
+    override fun newJob(bundle: TriggerFiredBundle?, scheduler: Scheduler?): Job {
+        val billingJob = super.newJob(bundle, scheduler) as BillingJob
         billingJob.billingService = billingService
         billingJob.invoiceService = invoiceService
         return billingJob
