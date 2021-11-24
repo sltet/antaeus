@@ -6,6 +6,9 @@ import io.pleo.antaeus.core.exceptions.NetworkException
 import io.pleo.antaeus.core.external.PaymentProvider
 import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 class BillingService(
     private val paymentProvider: PaymentProvider
@@ -17,13 +20,13 @@ class BillingService(
                 invoice.status = InvoiceStatus.PAID
             }
         } catch (e: CustomerNotFoundException) {
-            // TODO error logging
+            logger.error("Customer with id ${invoice.customerId} does not exists", e)
         } catch (e: CurrencyMismatchException) {
-            // TODO error logging
+            logger.error("Customer currency with id ${invoice.customerId} does not match the customer account", e)
         } catch (e: NetworkException) {
-            // TODO error logging
+            logger.error("Unexpected network exception", e)
         } catch (e: Exception) {
-            // TODO error logging
+            logger.error(e.message, e)
         }
         return invoice
     }
