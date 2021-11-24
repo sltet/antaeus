@@ -8,10 +8,10 @@
 package io.pleo.antaeus.app
 
 import getPaymentProvider
+import io.pleo.antaeus.core.factory.BillingContextFactory
 import io.pleo.antaeus.core.factory.BillingJobFactory
 import io.pleo.antaeus.core.factory.SchedulerFactory
-import io.pleo.antaeus.core.jobs.Billing
-import io.pleo.antaeus.core.jobs.BillingJob
+import io.pleo.antaeus.core.jobs.BillingContext
 import io.pleo.antaeus.core.services.*
 import io.pleo.antaeus.data.AntaeusDal
 import io.pleo.antaeus.data.CustomerTable
@@ -26,7 +26,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.quartz.JobBuilder
 import org.quartz.SimpleScheduleBuilder
 import org.quartz.TriggerBuilder
-import org.quartz.impl.StdSchedulerFactory
 import setupInitialData
 import java.io.File
 import java.sql.Connection
@@ -62,17 +61,8 @@ fun main() {
     // Get third parties
     val paymentProvider = getPaymentProvider()
 
-    val billingJob = JobBuilder.newJob(BillingJob::class.java)
-        .withIdentity("BillingJob", "billing")
-        .build()
-    val billingTrigger = TriggerBuilder.newTrigger().forJob(billingJob)
-        .withIdentity("billingTrigger")
-        .withDescription("Billing job trigger")
-        .withSchedule(SimpleScheduleBuilder.simpleSchedule().repeatForever().withIntervalInSeconds(10))
-        .build()
-
-
-    val billings = arrayListOf(Billing(billingJob, billingTrigger))
+    val scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().repeatForever().withIntervalInSeconds(10)
+    val billingContext = BillingContextFactory().createBillingContext("billing", "billing", scheduleBuilder)
 
     // Create core services
     val invoiceService = InvoiceService(dal = dal)
@@ -83,7 +73,7 @@ fun main() {
     val billingJobFactory = BillingJobFactory(billingService, invoiceService)
 
     val scheduler = SchedulerFactory().stdScheduler(billingJobFactory)
-    val schedulingService: SchedulingService = QuartzSchedulingService(billings, scheduler)
+    val schedulingService: SchedulingService = QuartzSchedulingService(arrayListOf(billingContext), scheduler)
     schedulingService.start()
 
     // Create REST web service
