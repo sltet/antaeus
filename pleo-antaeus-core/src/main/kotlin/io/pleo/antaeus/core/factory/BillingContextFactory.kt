@@ -6,7 +6,7 @@ import org.quartz.*
 
 class BillingContextFactory {
 
-    fun createBillingContext(identity: String, group: String, scheduleBuilder: ScheduleBuilder<SimpleTrigger>) : BillingContext {
+    fun <T : Trigger?> createBillingContext(identity: String, group: String, scheduleBuilder: ScheduleBuilder<T>) : BillingContext {
 
         val billingJob = JobBuilder.newJob(BillingJob::class.java)
             .withIdentity(identity, group)

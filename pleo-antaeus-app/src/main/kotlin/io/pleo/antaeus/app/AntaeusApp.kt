@@ -22,6 +22,7 @@ import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.quartz.CronScheduleBuilder
 import org.quartz.SimpleScheduleBuilder
 import setupInitialData
 import java.io.File
@@ -58,7 +59,7 @@ fun main() {
     // Get third parties
     val paymentProvider = getPaymentProvider()
 
-    val scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().repeatForever().withIntervalInSeconds(10)
+    val scheduleBuilder = CronScheduleBuilder.monthlyOnDayAndHourAndMinute(1, 3, 0)
     val billingContext = BillingContextFactory().createBillingContext("billing", "billing", scheduleBuilder)
 
     // Create core services
