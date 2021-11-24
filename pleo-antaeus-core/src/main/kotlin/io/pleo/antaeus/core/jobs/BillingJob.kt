@@ -15,7 +15,7 @@ class BillingJob : Job {
         print("Job execution")
         invoiceService.fetch(setOf(InvoiceStatus.PENDING))
             .stream()
-            .map { invoice ->  billingService.charge(invoice) }
+            .map { invoice ->  billingService.chargeInvoice(invoice) }
             .filter { invoice -> invoice.status == InvoiceStatus.PAID }
             .peek { invoice -> invoiceService.update(invoice)}
             .forEach { invoice -> print("updated invoice with id ${invoice.id}") } // TODO proper logging
