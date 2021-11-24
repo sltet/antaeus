@@ -67,13 +67,12 @@ fun main() {
     // Create core services
     val invoiceService = InvoiceService(dal = dal)
     val customerService = CustomerService(dal = dal)
-
-    // This is _your_ billing service to be included where you see fit
     val billingService = BillingService(paymentProvider = paymentProvider)
-    val billingJobFactory = BillingJobFactory(billingService, invoiceService)
 
+    val billingJobFactory = BillingJobFactory(billingService, invoiceService)
     val scheduler = SchedulerFactory().stdScheduler(billingJobFactory)
     val schedulingService: SchedulingService = QuartzSchedulingService(arrayListOf(billingContext), scheduler)
+
     schedulingService.start()
 
     // Create REST web service
