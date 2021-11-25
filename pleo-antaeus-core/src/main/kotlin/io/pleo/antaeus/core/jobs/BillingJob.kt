@@ -19,7 +19,7 @@ class BillingJob : Job {
             .stream()
             .map { invoice ->  billingService.chargeInvoice(invoice) }
             .filter { invoice -> invoice.status == InvoiceStatus.PAID }
-            .peek { invoice -> invoiceService.update(invoice)}
+            .map { invoice -> invoiceService.update(invoice)}
             .forEach { invoice -> logger.debug("Successfully charged invoice with id ${invoice.id}") }
     }
 

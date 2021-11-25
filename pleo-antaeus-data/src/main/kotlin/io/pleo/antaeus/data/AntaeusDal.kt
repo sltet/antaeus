@@ -48,7 +48,7 @@ class AntaeusDal(private val db: Database) {
         }
     }
 
-    fun updateInvoice(invoice: Invoice): Invoice? {
+    fun updateInvoice(invoice: Invoice): Invoice {
         transaction(db) {
             InvoiceTable.update({InvoiceTable.id eq invoice.id}){
                 it[this.value] = invoice.amount.value
@@ -57,7 +57,7 @@ class AntaeusDal(private val db: Database) {
                 it[this.customerId] = invoice.customerId
             }
         }
-        return fetchInvoice(invoice.id)
+        return invoice
     }
 
     fun createInvoice(amount: Money, customer: Customer, status: InvoiceStatus = InvoiceStatus.PENDING): Invoice? {
