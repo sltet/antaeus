@@ -1,4 +1,4 @@
-package io.pleo.antaeus.core.factory
+package io.pleo.antaeus.core.factories
 
 import io.pleo.antaeus.core.jobs.BillingJob
 import io.pleo.antaeus.core.services.BillingService

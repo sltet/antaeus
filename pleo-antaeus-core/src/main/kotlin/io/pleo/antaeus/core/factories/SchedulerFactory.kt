@@ -1,4 +1,4 @@
-package io.pleo.antaeus.core.factory
+package io.pleo.antaeus.core.factories
 
 import org.quartz.Scheduler
 import org.quartz.impl.StdSchedulerFactory
