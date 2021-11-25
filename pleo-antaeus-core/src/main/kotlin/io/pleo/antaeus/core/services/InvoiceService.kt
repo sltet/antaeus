@@ -22,7 +22,7 @@ class InvoiceService(private val dal: AntaeusDal) {
         return dal.fetchInvoices(statuses)
     }
 
-    fun update(invoice: Invoice) {
-        dal.updateInvoice(invoice)
+    fun update(invoice: Invoice): Invoice? {
+        return dal.updateInvoice(invoice)
     }
 }
